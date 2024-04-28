@@ -11,12 +11,22 @@ public class Data {
     private String id;
     private String date;
 
+    private String monthYear;
+
     private int day;
     private int month;
     private int year;
 
 
-    public Data(int amount, String categories, String note, String id, String date,int day,int month,int year) {
+    public String getMonthYear() {
+        return monthYear;
+    }
+
+    public void setMonthYear(String monthYear) {
+        this.monthYear = monthYear;
+    }
+
+    public Data(int amount, String categories, String note, String id, String date, int day, int month, int year, String monthYear) {
         this.amount = amount;
         this.categories = categories;
         this.note = note;
@@ -24,6 +34,8 @@ public class Data {
         this.date=date;
         this.month = month;
         this.year = year;
+        this.monthYear = monthYear;
+
     }
 
     @Override
