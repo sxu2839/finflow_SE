@@ -13,6 +13,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.example.finflow.R;
+import com.example.finflow.ReminderCode.AddReminderFragment;
 import com.example.finflow.bottom_fragment.BillPaymentRemainderFragment;
 import com.example.finflow.bottom_fragment.HomeFragment;
 import com.example.finflow.bottom_fragment.LogIncomeExpensesFragment;
@@ -51,7 +52,7 @@ public class Dashboard extends AppCompatActivity {
                     } else if (item.getItemId() == R.id.news_id) {
                         selectedFragment = new NewsFeedFragment();
                     } else if (item.getItemId() == R.id.remainder) {
-                        selectedFragment = new BillPaymentRemainderFragment();
+                        selectedFragment = new AddReminderFragment();
                     }
                     if (selectedFragment != null) {
                         FragmentManager fragmentManager = getSupportFragmentManager();
@@ -65,6 +66,13 @@ public class Dashboard extends AppCompatActivity {
         });
         getSupportFragmentManager().beginTransaction().replace(R.id.bottomFragment, new StocksWatchlistFragment()).commit();
     }
+    public void setBottomNavigationVisibility(int visibility) {
+        BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigation);
+        if (bottomNavigationView != null) {
+            bottomNavigationView.setVisibility(visibility);
+        }
+    }
+
 }
 //package com.example.finflow;
 //

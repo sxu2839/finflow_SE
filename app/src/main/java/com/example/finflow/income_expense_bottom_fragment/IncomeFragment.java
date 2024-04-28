@@ -146,7 +146,7 @@ public class IncomeFragment extends Fragment {
         recyclerView.setLayoutManager(layoutManager);
 
         Spinner monthSpinner = view.findViewById(R.id.spinner);
-        List<String> months = Arrays.asList("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec");
+        List<String> months = Arrays.asList("January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December");
         ArrayAdapter<String> monthAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_item, months);
         monthAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         monthSpinner.setAdapter(monthAdapter);
@@ -362,7 +362,7 @@ public class IncomeFragment extends Fragment {
                 }
                 int amountInInt = Integer.parseInt(amount);
 
-                Data data = new Data(amountInInt, selectedCategory_update, note, post_key, selectedDate, day, month + 1, year);
+                Data data = new Data(amountInInt, selectedCategory_update, note, post_key, selectedDate, day, month + 1, year,monthYear);
 
                 mIncomeDatabase.child(post_key).setValue(data);
 

@@ -270,6 +270,7 @@
                     int month = datePicker.getMonth();
                     int year = datePicker.getYear();
                     String selectedDate = String.format("%d-%02d-%02d", year, month + 1, day);
+                    String monthYear = String.format("%02d-%04d",month+1,year);
 
                     String amount = edtamount.getText().toString().trim();
                     String note = edtNote.getText().toString().trim();
@@ -290,7 +291,7 @@
 
                     String mDate = DateFormat.getDateInstance().format(new Date());
 
-                    Data data = new Data(amountInInt, selectedCategory, note, id, selectedDate,day,month+1,year);
+                    Data data = new Data(amountInInt, selectedCategory, note, id, selectedDate,day,month+1,year,monthYear);
 
                     mExpenseDatabase.child(id).setValue(data);
 
@@ -350,6 +351,8 @@
                     int month = datePicker.getMonth();
                     int year = datePicker.getYear();
                     String selectedDate = String.format("%d-%02d-%02d", year, month + 1, day);
+                    String monthYear = String.format("%02d-%04d",month+1,year);
+
 
                     String amount = edtamount.getText().toString().trim();
                     String note = edtNote.getText().toString().trim();
@@ -370,7 +373,7 @@
 
                     String mDate = DateFormat.getDateInstance().format(new Date());
 
-                    Data data = new Data(amountInInt, selectedCategory, note, id, selectedDate,day,month+1,year);
+                    Data data = new Data(amountInInt, selectedCategory, note, id, selectedDate,day,month+1,year,monthYear);
 
                     mIncomeDatabase.child(id).setValue(data);
 

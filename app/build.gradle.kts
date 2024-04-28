@@ -50,7 +50,9 @@ dependencies {
     implementation("com.google.firebase:firebase-firestore")
     implementation ("com.firebaseui:firebase-ui-database:8.0.2")
     implementation ("com.github.PhilJay:MPAndroidChart:3.1.0")
-    implementation ("jp.wasabeef:blurry:4.0.0")
+    val lottieVersion = "3.4.1"
+    implementation ("com.airbnb.android:lottie:$lottieVersion")
+
 
 }
 

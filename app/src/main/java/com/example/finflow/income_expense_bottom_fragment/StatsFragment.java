@@ -160,14 +160,37 @@ public class StatsFragment extends Fragment {
         ArrayAdapter<String> monthAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_item, months);
         monthAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         monthSpinner.setAdapter(monthAdapter);
-        monthSpinner.setSelection(3);
+
+
+        // init Spinner
+
+        Spinner YearSpinner = view.findViewById(R.id.spinner_stats_year);
+        List<String> Year = Arrays.asList("2024", "2023", "2022", "2021", "2020", "2019", "2018", "2017", "2016", "2015", "2014", "2013");
+        ArrayAdapter<String> yearAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_item, Year);
+        yearAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        YearSpinner.setAdapter(yearAdapter);
+
+
+
 
         monthSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+            public void onItemSelected(AdapterView<?> adapterView, View view, int monthPosition, long l) {
+                YearSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                    @Override
+                    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                        int selectedMonth = monthPosition + 1; // Assuming the first position is January
+                        int selectedYear = Integer.parseInt(YearSpinner.getSelectedItem().toString());
+                        fetchTotalIncomeExpense(selectedMonth, selectedYear);
+                        fetchExpenseForMonth(selectedMonth, selectedYear);
+                    }
 
-                fetchTotalIncomeExpense(i);
-                fetchExpenseForMonth(i);
+                    @Override
+                    public void onNothingSelected(AdapterView<?> adapterView) {
+
+                    }
+                });
+
             }
 
             @Override
@@ -179,14 +202,15 @@ public class StatsFragment extends Fragment {
         return view;
     }
 
-    private void fetchExpenseForMonth(int position) {
+    private void fetchExpenseForMonth(int month,int year) {
         String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
         DatabaseReference expenseRef = FirebaseDatabase.getInstance().getReference("ExpenseData").child(uid);
 
-        int montNumber = position+1;
+//        int montNumber = position+1;
 
-        Query expenseQuery = expenseRef.orderByChild("month").equalTo(montNumber);
+        Query expenseQuery = expenseRef.orderByChild("monthYear").equalTo("0"+month+"-"+year);
+
 
         expenseQuery.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -195,6 +219,7 @@ public class StatsFragment extends Fragment {
 
                 for (DataSnapshot expenseSnapshot : snapshot.getChildren()) {
                     Data expenseData = expenseSnapshot.getValue(Data.class);
+                    Log.d(expenseData.toString(),"DATA FROM FIREBASE");
                     String category = expenseData.getCategories(); // Assuming you have a getCategory method
                     int amount = expenseData.getAmount();
                     categoryExpenses.put(category, categoryExpenses.getOrDefault(category, 0) + amount);
@@ -238,19 +263,26 @@ public class StatsFragment extends Fragment {
 
     }
 
-    public void fetchTotalIncomeExpense(int position){
+    public void fetchTotalIncomeExpense(int month,int year){
         String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
         //reference to income databse
         DatabaseReference incomeRef = FirebaseDatabase.getInstance().getReference("IncomeData").child(uid);
+        DatabaseReference expenseRef = FirebaseDatabase.getInstance().getReference("ExpenseData").child(uid);
 
-        int montNumber = position+1;
+
+
+//        int montNumber = position+1;
+
+        Query incomeQuery = incomeRef.orderByChild("monthYear").equalTo("0"+month+"-"+year);
+        // Query to get expense for the selected month and year
+        Query expenseQuery = expenseRef.orderByChild("monthYear").equalTo("0"+month+"-"+year);
 
         AtomicInteger queryCounter = new AtomicInteger(0);
 
 
 
-        Query incomeQuery = incomeRef.orderByChild("month").equalTo(montNumber);
+//        Query incomeQuery = incomeRef.orderByChild("month").equalTo(montNumber);
 
         incomeQuery.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -274,10 +306,10 @@ public class StatsFragment extends Fragment {
 
     });
 
-        DatabaseReference expenseRef = FirebaseDatabase.getInstance().getReference("ExpenseData").child(uid);
+//        DatabaseReference expenseRef = FirebaseDatabase.getInstance().getReference("ExpenseData").child(uid);
 
         // Query to get expense for the selected month
-        Query expenseQuery = expenseRef.orderByChild("month").equalTo(montNumber);
+//        Query expenseQuery = expenseRef.orderByChild("month").equalTo(montNumber);
 
         expenseQuery.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override

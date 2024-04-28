@@ -355,6 +355,9 @@ private void updateDataItem(int monthNumber){
             int year = datePickerUpdate.getYear();
             String selectedDate = String.format("%d-%02d-%02d", year, month + 1, day);
 
+            String monthYear = String.format("%02d-%04d",month,year);
+
+
             String amount = etAmount.getText().toString().trim();
             String note = etNote.getText().toString().trim();
 
@@ -369,7 +372,7 @@ private void updateDataItem(int monthNumber){
             }
             int amountInInt = Integer.parseInt(amount);
 
-            Data data = new Data(amountInInt, selectedCategory_update, note, post_key, selectedDate,day,month+1,year);
+            Data data = new Data(amountInInt, selectedCategory_update, note, post_key, selectedDate,day,month+1,year,monthYear);
 
             mExpenseDatabase.child(post_key).setValue(data);
 
